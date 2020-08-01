@@ -14,7 +14,7 @@ bool SDP::sdp::serialInit()
     {
         sp.setPort("/dev/ttyS0");
         sp.setBaudrate(115200);
-        serial::Timeout to = serial::Timeout::simpleTimeout(0);
+        serial::Timeout to = serial::Timeout::simpleTimeout(1000);
         sp.setTimeout(to);
         sp.open();
     }
@@ -40,7 +40,7 @@ bool SDP::sdp::serialInit()
 
 bool SDP::sdp::decodeFrame(unsigned char tmpBuffer[READ_BUFFERSIZE])
 {
-    if (tmpBuffer[0] == DATA_FrameHead && tmpBuffer[1] == DATA_FrameHead)
+    if (tmpBuffer[0] == DATA_FrameHead1 && tmpBuffer[1] == DATA_FrameHead2)
     //if (true)
     {
         //其他字节数据处理
@@ -82,7 +82,7 @@ bool SDP::sdp::RUN(workthread *workthread_ptr)
     {
         try
         {
-            if (READ_BUFFERSIZE == sp.available())
+            if (sp.available())
             {
                 std::cout << sp.available() << std::endl;
                 _mutex.lock();
@@ -118,11 +118,11 @@ bool SDP::sdp::RUN(workthread *workthread_ptr)
                     break;
                 }
                 //loop_rate.sleep();
-                workthread::msleep(50);
+                workthread::msleep(25);
             }
         }
         //loop_rate.sleep();
-        workthread::msleep(50);
+        workthread::msleep(25);
     }
 
     return true;

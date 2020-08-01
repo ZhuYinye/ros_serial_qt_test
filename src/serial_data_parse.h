@@ -28,8 +28,9 @@
 #include <QtCore/QMutex>
 
 //#define CACHE_SIZE 50
-#define READ_BUFFERSIZE 44
-#define DATA_FrameHead (unsigned char)0xAA
+#define READ_BUFFERSIZE 53
+#define DATA_FrameHead1 (unsigned char)0xAA
+#define DATA_FrameHead2 (unsigned char)0x55
 
 extern unsigned char recieve_buffer[READ_BUFFERSIZE];
 extern QMutex _mutex;//全局互斥锁
