@@ -12,9 +12,9 @@ bool SDP::sdp::serialInit()
 {
     try
     {
-        sp.setPort("/dev/ttyUSB0");
+        sp.setPort("/dev/ttyS0");
         sp.setBaudrate(115200);
-        serial::Timeout to = serial::Timeout::simpleTimeout(1000);
+        serial::Timeout to = serial::Timeout::simpleTimeout(0);
         sp.setTimeout(to);
         sp.open();
     }
@@ -50,12 +50,15 @@ bool SDP::sdp::decodeFrame(unsigned char tmpBuffer[READ_BUFFERSIZE])
             std::cout << (unsigned int)tmpBuffer[i] << ' ';
         }
         std::cout << std::endl;
-
     }
     else
     {
         std::cout << "数据帧头错误" << std::endl;
-        memset(tmpBuffer, 0, READ_BUFFERSIZE);
+        for (int i = 0; i < READ_BUFFERSIZE; i++)
+        {
+            std::cout << (unsigned int)tmpBuffer[i] << ' ';
+        }
+        std::cout << std::endl;
         return false;
     }
     return true;
@@ -79,8 +82,9 @@ bool SDP::sdp::RUN(workthread *workthread_ptr)
     {
         try
         {
-            if (sp.available())
+            if (READ_BUFFERSIZE == sp.available())
             {
+                std::cout << sp.available() << std::endl;
                 _mutex.lock();
                 //读取数据
                 sp.read(r_buffer, READ_BUFFERSIZE);
@@ -114,11 +118,11 @@ bool SDP::sdp::RUN(workthread *workthread_ptr)
                     break;
                 }
                 //loop_rate.sleep();
-                workthread::msleep(10);
+                workthread::msleep(50);
             }
         }
         //loop_rate.sleep();
-        workthread::msleep(10);
+        workthread::msleep(50);
     }
 
     return true;

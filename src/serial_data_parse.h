@@ -27,6 +27,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtCore/QMutex>
 
+//#define CACHE_SIZE 50
 #define READ_BUFFERSIZE 44
 #define DATA_FrameHead (unsigned char)0xAA
 

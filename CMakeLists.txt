@@ -14,7 +14,7 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
 )
 
-find_package(Qt5  5.14.0 EXACT REQUIRED COMPONENTS  Widgets  )
+find_package(Qt5  5.14.2 EXACT REQUIRED COMPONENTS  Widgets  )
 if(Qt5_FOUND)
 	message("yes")
 endif(Qt5_FOUND)
